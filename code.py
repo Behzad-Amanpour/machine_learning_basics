@@ -8,7 +8,7 @@ import numpy as np
 
 # Training-Test Splitting --------------------------------------------------------
 from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.75, random_state=21)
+X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.75, random_state=21)  # Splitting is random but with a fix value for random_state you make it reproducible 
 
 # Classification Model -----------------------------------------------------------
 from sklearn.svm import SVC
@@ -42,7 +42,7 @@ for train_index, test_index in kf.split(X):
 print(scores)
 print(np.mean(scores))
 
-# Evaluation Metrics ------------------------------------------------------------
+# Evaluation Metrics ------------------ Behzad Amanpour --------------------------
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, precision_recall_fscore_support
 from sklearn.metrics import balanced_accuracy_score
 def specificity_score(y_true, y_pred):  # Scikit-learn has not defined a function for specificity
@@ -62,6 +62,36 @@ from sklearn.metrics import ConfusionMatrixDisplay
 labels = ['negative', 'positive']
 cm = confusion_matrix( y_test, y_pred )
 ConfusionMatrixDisplay( cm, display_labels = labels ).plot()
+
+# ROC Curve & AUC ----------------------- Behzad Amanpour ------------------------
+import matplotlib.pyplot as plt
+from sklearn.metrics import roc_curve, roc_auc_score
+
+model = SVC(kernel='linear', probability=True) # You should use "probability=True" for SVC
+
+y_proba = model.fit(X_train, y_train).predict_proba(X_test)[:, 1]
+
+AUC = roc_auc_score(y_test, y_proba)
+print(AUC)
+
+fpr, tpr, thresholds = roc_curve(y_test, y_proba)
+plt.figure()
+lw = 2
+plt.plot(
+    fpr, # shape: 4*1
+    tpr, # shape: 4*1
+    color="darkorange",
+    lw=lw,
+    label="ROC curve (area = %0.2f)" % AUC, 
+)
+plt.plot([0, 1], [0, 1], color="navy", lw=lw, linestyle="--")
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("Receiver operating characteristic example")
+plt.legend(loc="lower right")
+plt.show()
 
 
 
