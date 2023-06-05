@@ -1,1 +1,1 @@
-# machine_learning_basics
+# Machine Learning Basics
