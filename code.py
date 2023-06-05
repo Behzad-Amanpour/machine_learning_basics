@@ -93,7 +93,16 @@ plt.title("Receiver operating characteristic example")
 plt.legend(loc="lower right")
 plt.show()
 
+# Standardization & Normalization ------------------------------------------------
+from scipy.stats import zscore  # subtracts the mean value, and divids by the standard deviation
+X2 = zscore( X )                # calculates zscore in columns
+X2 = zscore(X, axis=1)          # calculates zscore in rows
 
+from sklearn.preprocessing import MinMaxScaler     # Transforms features by scaling each feature to the range (0, 1)
+scaler = MinMaxScaler()
+scaler.fit(X)
+X2 = scaler.transform(X)
+X2 = MinMaxScaler().fit(X).transform(X)
 
 
 
