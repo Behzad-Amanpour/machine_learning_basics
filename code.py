@@ -28,7 +28,7 @@ scores = cross_val_score(model, X, y, cv=4, scoring='recall')   # cv: The number
 print(scores)
 print(scores.mean())
 
-# Cross-validation (method2) --------------- Behzad Amanpour ---------------------
+# Cross-validation (method2) -----------------------------------------------------
 from sklearn.model_selection import KFold
 kf = KFold(n_splits=4, shuffle=False)   # n_splits: The number of parts into which the data is divided
                                         # shuffle: to randomize the order of the data
@@ -49,14 +49,19 @@ def specificity_score(y_true, y_pred):  # Scikit-learn has not defined a functio
     p, r, f, s = precision_recall_fscore_support(y_true, y_pred)
     return r[0]
 
-#  Each function takes two 1-dimensional numpy arrays: the true values of the target & the predicted values of the target.
 print("accuracy:", accuracy_score(y_test,y_pred))
 print("precision:", precision_score(y_test,y_pred))
 print("recall (sensitivity):", recall_score(y_test,y_pred))
 print("specificity:", specificity_score(y_test,y_pred))
-
 print("balanced accuracy:", balanced_accuracy_score(y_test,y_pred))
 
+# Confusion Matrix ---------------------------------------------------------------
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import ConfusionMatrixDisplay
+
+labels = ['negative', 'positive']
+cm = confusion_matrix( y_test, y_pred )
+ConfusionMatrixDisplay( cm, display_labels = labels ).plot()
 
 
 
