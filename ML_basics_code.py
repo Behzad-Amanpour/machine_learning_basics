@@ -29,8 +29,8 @@ print(scores)
 print(scores.mean())
 
 # Cross-validation (method2) -----------------------------------------------------
-from sklearn.model_selection import KFold
-kf = KFold(n_splits=4, shuffle=False)   # n_splits: The number of parts into which the data is divided
+from sklearn.model_selection import StratifiedKFold
+kf = StratifiedKFold(n_splits=4, shuffle=False)   # n_splits: The number of parts into which the data is divided
                                         # shuffle: to randomize the order of the data
 scores = []
 for train_index, test_index in kf.split(X):
